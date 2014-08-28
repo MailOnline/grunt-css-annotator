@@ -42,30 +42,23 @@ This is an example of the options
 
 This is an example of the annotation (there may be more than one label and they can be edited by hand):
 
-a{
-    /*labels:used,article*/
-    color: red;
-}
+    a{
+        /*labels:used,article*/
+        color: red;
+    }
 
-a.special{
-    /*labels:article*/
-    color: green;
-}
+    a.special{
+        /*labels:article*/
+        color: green;
+    }
 
 ##Options
 
-'src': a group of css. You can use the grunt [globbing syntax](http://gruntjs.com/configuring-tasks#globbing-patterns)
-'dest': a folder where the resulting css are written
-'label': this label is added to any css rule that is used 
-'override': (default false) if there is already a label annotated it doesn't change this label, just updates the empty ones
-urls: an array of urls to parse against the selector extracted from the css
-
-This is an example of the annotation:
-
-a{
-    /*labels:used*/
-    color: red;
-}
+* __src__: a group of css. You can use the grunt [globbing syntax](http://gruntjs.com/configuring-tasks#globbing-patterns)
+* __dest__: a folder where the resulting css are written
+* __label__: this label is added to any css rule that is used 
+* __override__: (default false) if there is already a label annotated it doesn't change this label, just updates the empty ones
+* __urls__ an array of urls to parse against the selector extracted from the css
 
 
 css-annotator-filter
@@ -83,10 +76,10 @@ This grunt task filters a css removing the rules annotated with the syntax used 
 
 ##Options
 
-'src': a group of css. You can use the grunt [globbing syntax](http://gruntjs.com/configuring-tasks#globbing-patterns)
-'dest': a folder where the resulting css are written
-'with_label': any css rules containing one of these label will be removed
-'without_label': any css rules that don't contain one of these label will be removed
+* __src__: a group of css. You can use the grunt [globbing syntax](http://gruntjs.com/configuring-tasks#globbing-patterns)
+* __dest__: a folder where the resulting css are written
+* __with_label__: any css rules containing one of these label will be removed
+* __without_label__: any css rules that don't contain one of these label will be removed
 
 Status
 ======
