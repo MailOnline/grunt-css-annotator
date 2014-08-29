@@ -55,10 +55,16 @@ This is an example of the annotation (there may be more than one label and they 
 ##Options
 
 * __src__: a group of css. You can use the grunt [globbing syntax](http://gruntjs.com/configuring-tasks#globbing-patterns)
-* __dest__: a folder where the resulting css are written
+* __dest__: a folder where the resulting css are written. If it is not defined the css will be annotated in place.
 * __label__: this label is added to any css rule that is used 
 * __override__: (default false) if there is already a label annotated it doesn't change this label, just updates the empty ones
 * __urls__ an array of urls to parse against the selector extracted from the css
+
+A note about resulting css. CSS is parsed and rewritten by reworq. There is some small and mostly positive side effect in this:
+- not valid css can't be parsed and it throws an error
+- some csshacks is not considered to be a valid css
+- the css is nicely reformatted
+- comments that takes places between selectors are removed
 
 
 css-annotator-filter

@@ -57,7 +57,7 @@ grunt.registerMultiTask("css-annotator", "attach a label to the css rules used i
                 var ast = rework(css, { source: f });
             }
             catch (e){
-                console.log(e);
+                grunt.log.error(e);
                 return;
             }
             return {name: f, ast: ast};
@@ -80,7 +80,7 @@ grunt.registerMultiTask("css-annotator", "attach a label to the css rules used i
     });
     selectors = flatten(selectors).filter(function (item){return !!item;});
 
-    console.log("Original selectors", selectors.length);
+    grunt.log.ok("Original selectors:" + selectors.length);
 
     checkSelectors(this.data.urls, selectors, function (err,data){
         if (err){
@@ -89,21 +89,20 @@ grunt.registerMultiTask("css-annotator", "attach a label to the css rules used i
         else {
             var s = new Set();
             data.forEach(function (item){
-                console.log("Used selectors", item.url, item.sel.length);
+                grunt.log.ok("Used selectors(" + item.url + "): " + item.sel.length);
                 s.add(item.sel);
             });
+
+            grunt.log.ok("Used total: " + s.length());
 
             asts.forEach(function (ast){
                 ast.ast.use(rw_plugins.getAnnotator(s, label, doOverrideLabels))
             });
              
             asts.forEach(function (ast){
-                // console.log(ast);
-                grunt.file.write(path.join(dest, ast.name), ast.ast.toString(/*{ sourcemap: true }*/));
-                //console.log();
+                var d = dest && path.join(dest, ast.name) || ast.name;
+                grunt.file.write(d, ast.ast.toString(/*{ sourcemap: true }*/));
             });
-            
-            // console.log(s.toString());
         }
         done();
     });
@@ -122,10 +121,10 @@ grunt.registerMultiTask("css-annotator-filter", "filter the css rules with a spe
                 var ast = rework(css, { source: f });
             }
             catch (e){
-                console.log(e);
+                grunt.log.error(e);
                 return;
             }
-            ast.use(getFilterByAnnotation(with_label_set, without_label_set));
+            ast.use(rw_plugins.getFilterByAnnotation(with_label_set, without_label_set));
             grunt.file.write(path.join(dest, f), ast.toString(/*{ sourcemap: true }*/));
 
         });
