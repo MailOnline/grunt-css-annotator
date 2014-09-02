@@ -1,0 +1,13 @@
+a {
+  color: red;
+}
+
+span {
+  /*labels:old*/
+  color: yellow;
+}
+
+.hello {
+  /*labels:newlabel*/
+  font-size: 12px;
+}

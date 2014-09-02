@@ -44,6 +44,7 @@ grunt.registerMultiTask("css-annotator", "attach a label to the css rules used i
     var label = this.data.label;
     var doOverrideLabels = this.data.override;
     var dest = this.data.dest;
+    var intersection = this.data.intersection;
 
     var asts = this.files.map(function (files){
         return files.src.map(function (f){
@@ -63,32 +64,29 @@ grunt.registerMultiTask("css-annotator", "attach a label to the css rules used i
 
     asts = util.flatten(asts).filter(util.notEmpty);
 
-    var selectors = util.getSelectors(asts);
-
-    // var selectors = asts.map(function (o){
-    //     return o.ast.obj.stylesheet.rules.map(function (r){
-    //         if (!r.selectors) return;
-    //         return r.selectors.join(',');
-    //     });
-    // });
-
-    // selectors = selectors.filter(util.notEmpty);
-    // selectors = util.flatten(selectors).filter(util.notEmpty);
+    var selectors = new Set(util.getSelectors(asts)).toArray();
 
     grunt.log.ok("Original selectors:" + selectors.length);
 
     checkSelectors(this.data.urls, selectors, function (err,data){
+        var s, selectors_array;
         if (err){
             grunt.log.error(err);
         }
         else {
-            var s = new Set();
-            data.forEach(function (item){
+            selectors_array = data.map(function (item){
                 grunt.log.ok("Used selectors(" + item.url + "): " + item.sel.length);
-                s.add(item.sel);
+                return new Set(item.sel);
             });
 
-            grunt.log.ok("Used total: " + s.length());
+            if (intersection){
+                s = util.intersection(selectors_array);
+            }
+            else {
+                s = util.union(selectors_array);
+            }
+
+            grunt.log.ok("Used (" + (intersection && "intersection" || "union" ) + "): " + s.length());
 
             asts.forEach(function (ast){
                 ast.ast.use(rw_plugins.getAnnotator(s, label, doOverrideLabels))
@@ -105,8 +103,8 @@ grunt.registerMultiTask("css-annotator", "attach a label to the css rules used i
 }); 
 
 grunt.registerMultiTask("css-annotator-filter", "filter the css rules with a specific label", function (){
-    var with_label_set = new Set(this.data.with_label);
-    var without_label_set = new Set(this.data.without_label);
+    var with_label_set = this.data.with_label && new Set(this.data.with_label);
+    var without_label_set = this.data.without_label_set && new Set(this.data.without_label);
     var dest = this.data.dest;
 
     this.files.forEach(function (files){
