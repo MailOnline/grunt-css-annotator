@@ -4,12 +4,15 @@
   "description": "A grunt task for annotating css",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node_modules/mocha/bin/mocha"
   },
   "author": "Maurizio Lupo <maurizio.lupo@mailonline.co.uk>",
   "license": "MIT",
   "dependencies": {
     "phantomjs": "~1.9.7-15",
     "rework": "~1.0.0"
+  },
+  "devDependencies": {
+    "mocha": "~1.21.4"
   }
 }

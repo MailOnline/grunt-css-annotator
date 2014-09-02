@@ -1,11 +1,12 @@
 "use strict"
 var rework = require('rework');
 
-var path = require('path')
-var childProcess = require('child_process')
-var phantomjs = require('phantomjs')
-var binPath = phantomjs.path
-var Set = require('../lib/set')
+var path = require('path');
+var childProcess = require('child_process');
+var phantomjs = require('phantomjs');
+var binPath = phantomjs.path;
+var Set = require('../lib/set');
+var util = require('../lib/util');
 
 var rw_plugins = require('../lib/rework_plugins');
 
@@ -35,12 +36,6 @@ function checkSelectors(urls, selectors, cb){
     proc.stdin.end();
 }
 
-function flatten(arr){
-    return arr.reduce(function(a, b) {
-        return a.concat(b);
-    }, []);
-}
-
 module.exports = function(grunt) {
 
 grunt.registerMultiTask("css-annotator", "attach a label to the css rules used in a group of pages", function (){
@@ -66,25 +61,25 @@ grunt.registerMultiTask("css-annotator", "attach a label to the css rules used i
 
     });
 
-    asts = flatten(asts).filter(function (item){return !!item;});
+    asts = util.flatten(asts).filter(util.notEmpty);
 
-    var selectors = asts.map(function (o){
-        return o.ast.obj.stylesheet.rules.map(function (r){
-            if (!r.selectors) return;
-            return r.selectors.join(',');
-        });
-    });
+    var selectors = util.getSelectors(asts);
 
-    selectors = selectors.filter(function (item){
-        return !!item;
-    });
-    selectors = flatten(selectors).filter(function (item){return !!item;});
+    // var selectors = asts.map(function (o){
+    //     return o.ast.obj.stylesheet.rules.map(function (r){
+    //         if (!r.selectors) return;
+    //         return r.selectors.join(',');
+    //     });
+    // });
+
+    // selectors = selectors.filter(util.notEmpty);
+    // selectors = util.flatten(selectors).filter(util.notEmpty);
 
     grunt.log.ok("Original selectors:" + selectors.length);
 
     checkSelectors(this.data.urls, selectors, function (err,data){
         if (err){
-            grunt.log.error(err)
+            grunt.log.error(err);
         }
         else {
             var s = new Set();
