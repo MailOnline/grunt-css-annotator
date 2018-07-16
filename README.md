@@ -1,6 +1,8 @@
 grunt-css-annotator
 ===================
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/MailOnline/grunt-css-annotator.svg)](https://greenkeeper.io/)
+
 This module contains a couple of grunt task useful for optimizing the css for the critical path.
 
 
