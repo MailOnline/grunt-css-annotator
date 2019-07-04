@@ -4,15 +4,19 @@
   "description": "A grunt task for annotating css",
   "main": "index.js",
   "scripts": {
-    "test": "node_modules/mocha/bin/mocha"
+    "test": "node_modules/mocha/bin/mocha",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "author": "Maurizio Lupo <maurizio.lupo@mailonline.co.uk>",
   "license": "MIT",
   "dependencies": {
     "phantomjs": "~1.9.7-15",
-    "rework": "~1.0.0"
+    "rework": "~1.0.0",
+    "snyk": "^1.189.0"
   },
   "devDependencies": {
     "mocha": "~1.21.4"
-  }
+  },
+  "snyk": true
 }
