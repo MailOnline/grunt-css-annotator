@@ -9,7 +9,7 @@
   "author": "Maurizio Lupo <maurizio.lupo@mailonline.co.uk>",
   "license": "MIT",
   "dependencies": {
-    "phantomjs": "~1.9.7-15",
+    "phantomjs": "~2.1.1",
     "rework": "~1.0.0"
   },
   "devDependencies": {
