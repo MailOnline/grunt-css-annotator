@@ -13,6 +13,6 @@
     "rework": "~1.0.0"
   },
   "devDependencies": {
-    "mocha": "~1.21.4"
+    "mocha": "~3.5.0"
   }
 }
